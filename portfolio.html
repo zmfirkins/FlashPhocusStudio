@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Flash Phocus Photography</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="img/icon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jim+Nightshade&family=Redressed&family=Taprom&display=swap" rel="stylesheet">
+<style>
+  .sky-wrap{ position:relative; min-height:100vh; overflow:hidden; }
+  .sky-wrap .stars{ position:fixed; }
+
+  .page-title{
+    position:relative; z-index:2;
+    text-align:center;
+    padding: var(--space-2) 0 var(--space-4);
+  }
+  .page-title h1{
+    font-family: var(--font-display);
+    font-weight:400;
+    font-size: clamp(2.2rem, 5.5vw, 3.2rem);
+    margin:0;
+  }
+
+  .grid{
+    position:relative; z-index:2;
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2);
+    padding-bottom: var(--space-5);
+  }
+  .grid figure{
+    margin:0;
+    position:relative;
+    aspect-ratio: 1/1;
+    overflow:hidden;
+    border: 1px solid transparent;
+    transition: border-color var(--dur);
+  }
+  .grid img{
+    width:100%; height:100%; object-fit:cover;
+    filter: grayscale(.15) brightness(.88);
+    transition: transform .6s ease, filter .6s ease;
+  }
+  .grid figcaption{
+    position:absolute; inset:auto 0 0 0;
+    padding: .9rem 1rem;
+    font-size: .72rem;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color: var(--ink);
+    background: linear-gradient(0deg, rgba(0,0,0,.7), transparent);
+    opacity:0;
+    transform: translateY(6px);
+    transition: opacity var(--dur), transform var(--dur);
+    padding-bottom: 5px;
+  }
+  .grid a:hover figure{ border-color: var(--cyan); }
+  .grid a:hover img{ transform: scale(1.05); filter: grayscale(0) brightness(1); }
+  .grid a:hover figcaption{ opacity:1; transform:none; }
+  .grid button.grid-item{
+    all: unset;
+    display:block;
+    cursor: pointer;
+    width:100%;
+  }
+  .grid button.grid-item:focus-visible figure{ border-color: var(--cyan); }
+
+  @media (max-width: 760px){
+    .grid{ grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 460px){
+    .grid{ grid-template-columns: 1fr; }
+  }
+
+  /* ---------------- Lightbox ---------------- */
+  .lightbox{
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background: rgba(3,4,8,.94);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .35s ease;
+    padding: var(--space-4);
+  }
+  .lightbox.is-open{
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+  .lightbox-figure{
+    margin:0;
+    max-width: min(90vw, 1000px);
+    max-height: 86vh;
+    text-align:center;
+    position:relative;
+  }
+  .lightbox-figure::before,
+  .lightbox-figure::after{
+    content:"";
+    position:absolute;
+    inset: 0;
+    border: 1px solid;
+    pointer-events:none;
+  }
+  .lightbox-figure::before{ border-color: var(--cyan); transform: translate(-8px,-8px); }
+  .lightbox-figure::after{ border-color: var(--magenta); transform: translate(8px,8px); }
+  .lightbox-figure img{
+    display:block;
+    max-width: 100%;
+    max-height: 78vh;
+    width:auto; height:auto;
+    margin: 0 auto;
+    opacity:0;
+    transform: scale(.97);
+    transition: opacity .3s ease, transform .3s ease;
+  }
+  .lightbox.is-open .lightbox-figure img.is-loaded{
+    opacity:1;
+    transform:none;
+  }
+  .lightbox-caption{
+    padding-bottom: var(--space-2);
+    margin-top: var(--space-2);
+    font-size: .8rem;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color: var(--ink-dim);
+  }
+  .lightbox-close,
+  .lightbox-nav{
+    all: unset;
+    position: absolute;
+    color: var(--ink);
+    cursor: pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width: 44px; height: 44px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    transition: border-color var(--dur), color var(--dur), transform var(--dur);
+  }
+  .lightbox-close:hover,
+  .lightbox-nav:hover{ border-color: var(--cyan); }
+  .lightbox-close{
+    top: var(--space-3);
+    right: var(--space-3);
+    font-size: 1.4rem;
+    line-height:1;
+  }
+  .lightbox-nav{
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.6rem;
+  }
+  .lightbox-nav:hover{ transform: translateY(-50%) scale(1.06); }
+  .lightbox-nav.prev{ left: var(--space-3); }
+  .lightbox-nav.next{ right: var(--space-3); }
+
+  @media (max-width: 620px){
+    .lightbox-nav{ width: 38px; height:38px; font-size:1.3rem; }
+    .lightbox-close{ width: 38px; height:38px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sky-wrap">
+  <div class="stars" aria-hidden="true"></div>
+
+  <div class="nav-row" style="position:relative; z-index:2;">
+    <a class="nav-brand" href="index.html" aria-label="Flash Phocus Photography home">
+      <img src="img/icon.webp" alt="Logo">
+      <span class="brand-text">Flash Phocus Photography</span>
+    </a>
+    <button id="nav-toggle" class="hamburger" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="portfolio.html" aria-current="page">Portfolio</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+
+  <div class="container">
+    <div class="grid">
+      <button type="button" class="grid-item" data-full="img/girlinblack.webp" data-caption="Aleyah Perez August 2026"><figure>
+        <img src="img/girlinblack.webp" alt="Portrait of a woman in black dress">
+        <figcaption>Ausust 2026</figcaption>
+      </figure></button>
+      <button type="button" class="grid-item" data-full="img/girls.webp" data-caption="The Motion August 2026"><figure>
+        <img src="img/girls.webp" alt="Portrait of two women">
+        <figcaption>August 2026</figcaption>
+      </figure></button>
+      <button type="button" class="grid-item" data-full="img/henna.webp" data-caption="Amie Decker July 2026"><figure>
+        <img src="img/henna.webp" alt="Portrait of woman with henna">
+        <figcaption>July 2026</figcaption>
+      </figure></button>
+      <button type="button" class="grid-item" data-full="img/manonchair.webp" data-caption="Carlo Arellano June 2026"><figure>
+        <img src="img/manonchair.webp" alt="Portrait of a man sitting">
+        <figcaption>June 2026</figcaption>
+      </figure></button>
+      <button type="button" class="grid-item" data-full="img/lay.webp" data-caption="Graduation June 2026"><figure>
+        <img src="img/lay.webp" alt="Portrait of a woman laying against a post">
+        <figcaption>June 2026</figcaption>
+      </figure></button>
+      <button type="button" class="grid-item" data-full="img/managain.webp" data-caption="Ahmed Jones May 2026"><figure>
+        <img src="img/managain.webp" alt="Portrait of a man">
+        <figcaption>May 2026</figcaption>
+      </figure></button>
+    </div>
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Enlarged photo viewer">
+  <button type="button" class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
+  <button type="button" class="lightbox-nav prev" id="lightbox-prev" aria-label="Previous photo">&#8249;</button>
+  <button type="button" class="lightbox-nav next" id="lightbox-next" aria-label="Next photo">&#8250;</button>
+  <figure class="lightbox-figure">
+    <img id="lightbox-img" src="" alt="">
+    <figcaption class="lightbox-caption" id="lightbox-caption"></figcaption>
+  </figure>
+</div>
+
+<script>
+  (function(){
+    var items = Array.prototype.slice.call(document.querySelectorAll('.grid-item'));
+    var lightbox = document.getElementById('lightbox');
+    var lbImg = document.getElementById('lightbox-img');
+    var lbCaption = document.getElementById('lightbox-caption');
+    var closeBtn = document.getElementById('lightbox-close');
+    var prevBtn = document.getElementById('lightbox-prev');
+    var nextBtn = document.getElementById('lightbox-next');
+    var currentIndex = 0;
+    var lastFocused = null;
+
+    function showImage(index){
+      currentIndex = (index + items.length) % items.length;
+      var item = items[currentIndex];
+      lbImg.classList.remove('is-loaded');
+      lbImg.src = item.getAttribute('data-full');
+      lbImg.alt = item.querySelector('img').alt;
+      lbCaption.textContent = item.getAttribute('data-caption') || '';
+      lbImg.onload = function(){ lbImg.classList.add('is-loaded'); };
+    }
+
+    function openLightbox(index){
+      lastFocused = document.activeElement;
+      showImage(index);
+      lightbox.classList.add('is-open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+    }
+
+    function closeLightbox(){
+      lightbox.classList.remove('is-open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (lastFocused) lastFocused.focus();
+    }
+
+    items.forEach(function(item, index){
+      item.addEventListener('click', function(){ openLightbox(index); });
+    });
+
+    closeBtn.addEventListener('click', closeLightbox);
+    nextBtn.addEventListener('click', function(){ showImage(currentIndex + 1); });
+    prevBtn.addEventListener('click', function(){ showImage(currentIndex - 1); });
+
+    lightbox.addEventListener('click', function(e){
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener('keydown', function(e){
+      if (!lightbox.classList.contains('is-open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') showImage(currentIndex + 1);
+      if (e.key === 'ArrowLeft') showImage(currentIndex - 1);
+    });
+  })();
+
+  (function(){
+    var toggle = document.getElementById('nav-toggle');
+    var nav = document.querySelector('.site-nav');
+    if (!toggle || !nav) return;
+    toggle.addEventListener('click', function(){
+      var expanded = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', String(!expanded));
+      nav.classList.toggle('open');
+    });
+    document.addEventListener('click', function(e){
+      if (!nav.classList.contains('open')) return;
+      if (e.target === toggle || nav.contains(e.target)) return;
+      nav.classList.remove('open');
+      toggle.setAttribute('aria-expanded','false');
+    });
+  })();
+</script>
+<footer class="site-footer">© 2026 Flash Phocus Photography</footer>
+</body>
+</html>

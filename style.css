@@ -1,0 +1,349 @@
+/* =========================================================
+   Nocturne — photography portfolio
+   Design tokens
+   ========================================================= */
+:root{
+  --bg:            #050710;
+  --bg-soft:       #0a0d18;
+  --bg-card:       #10141f;
+  --ink:           #f3f1ea;
+  --ink-dim:       #a8adba;
+  --ink-faint:     #6c7280;
+  --cyan:          #5fd9e6;
+  --magenta:       #d876c9;
+  --line:          rgba(243,241,234,0.12);
+/* =========================================================
+ --font-display:  'Alex Brush', cursive;
+  --font-body:     'Jost', sans-serif;
+   ========================================================= */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.75rem;
+  --space-4: 3rem;
+  --space-5: 5rem;
+
+  --radius: 2px;
+  --dur: 0.35s;
+}
+
+
+*, *::before, *::after{ box-sizing: border-box; }
+
+html{ scroll-behavior: smooth; }
+
+body{
+  margin:0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Redressed", cursive;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  opacity: 1;
+  animation: page-fade-in .6s ease;
+  transition: opacity .45s ease;
+}
+body.is-leaving{ opacity: 0; }
+
+@keyframes page-fade-in{
+  from{ opacity: 0; }
+  to{ opacity: 1; }
+}
+
+img{ max-width:100%; display:block; }
+
+a{ color: inherit; text-decoration:none; }
+
+::selection{ background: var(--magenta); color: var(--bg); }
+
+/* focus visibility */
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible{
+  outline: 1px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior:auto !important; }
+}
+
+@media (max-width: 760px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-photo {
+    width: 220px;
+    margin: 0 auto;
+  }
+
+  .about-copy {
+    width: 100%;
+  }
+
+  .nav-row {
+    padding: 1rem;
+    gap: 0.75rem;
+    position: relative;
+  }
+
+  .nav-row .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .site-nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 1rem;
+    min-width: 180px;
+    flex-direction: column;
+    gap: 0.85rem;
+    background: rgba(0,0,0,0.08);
+    padding: 1rem;
+    border-radius: 12px;
+    z-index: 20;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+
+  .site-nav.open {
+    display: flex;
+  }
+
+  .site-nav a {
+    font-size: 0.85rem;
+  }
+
+  .hamburger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* =========================================================
+   Star field (ambient, used on dark sections)
+   ========================================================= */
+.stars{
+  position:absolute; inset:0;
+  background-image:
+    radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,.55), transparent 100%),
+    radial-gradient(1px 1px at 80% 10%, rgba(255,255,255,.4), transparent 100%),
+    radial-gradient(1.5px 1.5px at 60% 70%, rgba(255,255,255,.5), transparent 100%),
+    radial-gradient(1px 1px at 30% 80%, rgba(255,255,255,.35), transparent 100%),
+    radial-gradient(1px 1px at 90% 55%, rgba(255,255,255,.45), transparent 100%),
+    radial-gradient(1px 1px at 45% 35%, rgba(255,255,255,.3), transparent 100%),
+    radial-gradient(1px 1px at 15% 60%, rgba(255,255,255,.4), transparent 100%),
+    radial-gradient(1px 1px at 70% 90%, rgba(255,255,255,.35), transparent 100%);
+  background-repeat: repeat;
+  background-size: 380px 380px;
+  pointer-events:none;
+  opacity:.8;
+}
+
+/* =========================================================
+   Nav
+   ========================================================= */
+.site-nav{
+  position:relative;
+  z-index: 20;
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+}
+.site-nav a{
+  font-family: var(--font-body);
+  font-size: .8rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  position: relative;
+  padding-bottom: 4px;
+  transition: color var(--dur);
+}
+.site-nav a::after{
+  content:"";
+  position:absolute; left:0; right:100%; bottom:0;
+  height:1px;
+  background: linear-gradient(90deg, var(--cyan), var(--magenta));
+  transition: right var(--dur);
+}
+.site-nav a:hover, .site-nav a[aria-current="page"]{ color: var(--ink); }
+.site-nav a:hover::after, .site-nav a[aria-current="page"]::after{ right:0; }
+
+.hamburger{
+  display:none;
+  background:transparent;
+  border:0;
+  color: var(--ink);
+  font-size:1.6rem;
+  padding:.5rem;
+  cursor:pointer;
+}
+
+.nav-brand img{
+  width: 64px;
+  height: auto;
+  display: inline-block;
+}
+
+.brand-text{
+  display:inline-block;
+  color: var(--ink);
+  font-weight:600;
+  font-size:1rem;
+}
+
+.site-nav.open{ display:flex; }
+
+.nav-brand{
+  position:relative; z-index:20;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--ink);
+  padding: var(--space-2) var(--space-4) 0;
+}
+
+.nav-row{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  padding: var(--space-3) var(--space-4) 0;
+}
+.nav-row .nav-brand{ padding:0; }
+.nav-row .site-nav{ padding:0; }
+
+/* =========================================================
+   Signature motif: duotone offset frame
+   ========================================================= */
+.duo-frame{
+  position:relative;
+  display:inline-block;
+}
+.duo-frame::before,
+.duo-frame::after{
+  content:"";
+  position:absolute;
+  border: 1px solid;
+  pointer-events:none;
+}
+.duo-frame::before{
+  inset: -14px -14px auto auto;
+  top:-14px; left:-14px; right:auto; bottom:auto;
+  width: 100%; height:100%;
+  border-color: var(--cyan);
+  transform: translate(-8px,-8px);
+}
+.duo-frame::after{
+  top:-14px; left:-14px;
+  width: 100%; height:100%;
+  border-color: var(--magenta);
+  transform: translate(8px,8px);
+}
+
+/* =========================================================
+   Buttons / inputs share the duotone hover language
+   ========================================================= */
+.btn{
+  font-family: var(--font-body);
+  font-size: .78rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: .95rem 1.6rem;
+  cursor:pointer;
+  position:relative;
+  transition: border-color var(--dur), color var(--dur), transform var(--dur);
+}
+.btn:hover{
+  border-color: var(--cyan);
+  transform: translateY(-1px);
+  box-shadow: 3px 3px 0 -1px var(--magenta);
+}
+
+.field{
+  margin-bottom: var(--space-3);
+}
+.field label{
+  display:block;
+  font-size:.72rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color: var(--ink-dim);
+  margin-bottom: .5rem;
+}
+.field input, .field textarea{
+  width:100%;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: .95rem;
+  padding: .75rem .9rem;
+  transition: border-color var(--dur), box-shadow var(--dur);
+}
+.field input:focus, .field textarea:focus{
+  border-color: var(--cyan);
+  box-shadow: 2px 2px 0 -1px var(--magenta);
+  outline:none;
+}
+.field textarea{ resize: vertical; min-height: 110px; }
+
+/* =========================================================
+   Social row
+   ========================================================= */
+.social-row{
+  display:flex;
+  justify-content:center;
+  gap: var(--space-2);
+  padding: var(--space-4) 0;
+}
+.social-row a{
+  width: 42px; height:42px;
+  border-radius:50%;
+  border: 1px solid var(--line);
+  display:flex; align-items:center; justify-content:center;
+  color: var(--ink-dim);
+  transition: border-color var(--dur), color var(--dur), transform var(--dur);
+}
+.social-row a:hover{
+  border-color: var(--cyan);
+  color: var(--ink);
+  transform: translateY(-2px);
+}
+.social-row svg{ width:18px; height:18px; fill:currentColor; }
+
+/* =========================================================
+   Footer
+   ========================================================= */
+.site-footer{
+  text-align:center;
+  font-size: .7rem;
+  letter-spacing:.1em;
+  color: var(--ink-faint);
+  padding-bottom: var(--space-4);
+}
+
+/* =========================================================
+   Utility
+   ========================================================= */
+.container{
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+.eyebrow{
+  font-size: .72rem;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color: var(--cyan);
+}

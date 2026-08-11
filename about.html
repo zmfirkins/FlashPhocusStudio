@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Flash Phocus Photography</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="img/icon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jim+Nightshade&family=Redressed&family=Taprom&display=swap" rel="stylesheet">
+<style>
+  body{
+    background:
+      linear-gradient(180deg, rgba(4,5,10,.55) 0%, rgba(4,5,10,.75) 60%, rgba(4,5,10,.95) 100%),
+      url('img/eyes.webp') center 35%/cover no-repeat fixed,
+      var(--bg);
+    min-height:100vh;
+  }
+  .about-grid{
+    display:grid;
+    grid-template-columns: 280px 1fr;
+    gap: var(--space-5);
+    align-items:start;
+    padding-bottom: var(--space-5);
+  }
+  .about-photo{
+    border: 1px solid var(--line);
+  }
+  .about-photo img{ aspect-ratio: 1/1; object-fit:cover; filter: saturate(.85); }
+  .about-cap{
+    margin-top: var(--space-2);
+    font-size: .85rem;
+    color: var(--ink-dim);
+    font-style: italic;
+  }
+
+  .about-copy p{
+    color: rgba(243,241,234,.92);
+    font-size: .98rem;
+    margin: 0 0 1.3em;
+    max-width: 62ch;
+  }
+  .about-copy p:first-of-type::first-letter{
+    font-family: var(--font-display);
+    font-size: 2.6rem;
+    color: var(--cyan);
+    padding-right: .1rem;
+    line-height:.7;
+  }
+
+  @media (max-width: 760px){
+    .about-grid{ grid-template-columns: 1fr; }
+    .about-photo{ width: 220px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="nav-row">
+  <a class="nav-brand" href="index.html" aria-label="Flash Phocus Photography home">
+    <img src="img/icon.webp" alt="Logo">
+    <span class="brand-text">Flash Phocus Photography</span>
+  </a>
+  <button id="nav-toggle" class="hamburger" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+  <nav class="site-nav" aria-label="Primary">
+    <a href="index.html">Home</a>
+    <a href="about.html" aria-current="page">About</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</div>
+
+<div class="container about-grid">
+  <div>
+    <div class="about-photo">
+      <img src="img/leaf.webp" alt="Portrait of the photographer, wrapped in a coat against a dusk backdrop">
+    </div>
+    <p class="about-cap">Working out of a small studio in Chicago, always somewhere between golden hour and 2am.</p>
+  </div>
+
+  <div class="about-copy">
+    <p>I first picked up my camera the summer I moved to Chigaco. Seven years later, I find myself still taking pictures in the beautiful city I call home - maybe it's the deep dish pizza holding me captive. </p>
+    <p>I specialize in portraits. Nothing makes me happier than seeing subjects smile at their photos, feeling good about every single one. Everyone deserves to feel beautiful and share that beauty with others.</p>
+    <p>These days I spend most of my time split between comissioned shoots and personal projects - If you like my work or just need a local photographer, I may be the photographer for you! Don't be afriad to reach out and send me a message!</p>
+  </div>
+</div>
+
+<div class="social-row" aria-label="Social links">
+  <a href="#" aria-label="Messenger"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.1 2 11.2c0 2.9 1.5 5.5 3.8 7.2V22l3.5-1.9c.9.3 1.9.4 2.7.4 5.5 0 10-4.1 10-9.2S17.5 2 12 2zm1 12.4l-2.5-2.7-4.9 2.7 5.4-5.7 2.6 2.7 4.8-2.7-5.4 5.7z"/></svg></a>
+  <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.2c2.7 0 3 0 4.1.06 1.1.05 1.8.22 2.2.37.55.21.95.47 1.36.88.41.41.67.81.88 1.36.15.4.32 1.1.37 2.2.06 1.1.06 1.4.06 4.1s0 3-.06 4.1c-.05 1.1-.22 1.8-.37 2.2-.21.55-.47.95-.88 1.36-.41.41-.81.67-1.36.88-.4.15-1.1.32-2.2.37-1.1.06-1.4.06-4.1.06s-3 0-4.1-.06c-1.1-.05-1.8-.22-2.2-.37-.55-.21-.95-.47-1.36-.88-.41-.41-.67-.81-.88-1.36-.15-.4-.32-1.1-.37-2.2C2.2 15 2.2 14.7 2.2 12s0-3 .06-4.1c.05-1.1.22-1.8.37-2.2.21-.55.47-.95.88-1.36.41-.41.81-.67 1.36-.88.4-.15 1.1-.32 2.2-.37C8 2.2 8.3 2.2 12 2.2zM12 7a5 5 0 100 10 5 5 0 000-10zm0 8.2a3.2 3.2 0 110-6.4 3.2 3.2 0 010 6.4zm5.2-8.4a1.2 1.2 0 11-2.4 0 1.2 1.2 0 012.4 0z"/></svg></a>
+  <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 11.02 5 2.5 2.5 0 01-.02-5zM3 8.98h4V21H3V8.98zM9.5 8.98H13v1.64h.05c.5-.9 1.7-1.85 3.5-1.85 3.75 0 4.45 2.4 4.45 5.5V21h-4v-5.2c0-1.24-.02-2.85-1.75-2.85-1.75 0-2.02 1.35-2.02 2.76V21h-4V8.98z"/></svg></a>
+  <a href="mailto:hello@nocturne.example" aria-label="Email"><svg viewBox="0 0 24 24"><path d="M3 5.5A1.5 1.5 0 014.5 4h15A1.5 1.5 0 0121 5.5v13A1.5 1.5 0 0119.5 20h-15A1.5 1.5 0 013 18.5v-13zm2.1.5l6.9 5.4L18.9 6H5.1zM19 8.2l-6.6 5.2a1 1 0 01-1.2 0L5 8.2v10.3h14V8.2z"/></svg></a>
+</div>
+
+<footer class="site-footer">© 2026 Flash Phocus Photography</footer>
+
+<script>
+  (function(){
+    var toggle = document.getElementById('nav-toggle');
+    var nav = document.querySelector('.site-nav');
+    if (!toggle || !nav) return;
+    toggle.addEventListener('click', function(){
+      var expanded = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', String(!expanded));
+      nav.classList.toggle('open');
+    });
+    document.addEventListener('click', function(e){
+      if (!nav.classList.contains('open')) return;
+      if (e.target === toggle || nav.contains(e.target)) return;
+      nav.classList.remove('open');
+      toggle.setAttribute('aria-expanded','false');
+    });
+  })();
+</script>
+</body>
+</html>
